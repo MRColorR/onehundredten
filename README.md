@@ -1,18 +1,32 @@
 # onehundredten
 
+<!-- Project README scaffold: https://github.com/MRColorR/project-template -->
+
+[Overview](#overview) | [Getting started](#getting-started) | [Documentation](#documentation) | [Contributing](#contributing) | [Support](#support) | [License](#license)
+
+## Overview
+
 In this project we produce a working PoC of a vendor-agnostic multi-cloud bursting solution using two openstack clouds (devstack) and a multi cloud kubernetes cluster (K3s).  - Leave a star ⭐ if you like this project 🙂 thank you.
 
 The example services we run are a simple website and an API used to compute the factorial of the number entered on the website by the user. The computation is executed by the cluster and both services have their horizontal auto scaler and thanks to the labels defined on the nodes the services will be executed on the first cloud (on-prem) until no more resources are available. Then the autoscaler proceeds to burst the workload also on the second cloud (public/secondary cloud) realizing the cloud bursting function. Additionnaly in the blueprint we defined several policies for supporting auto backups/rollback of the services and rolling updates.
 
 ---
 
-## Prerequisites
+## Getting started
+
+<a name="prerequisites"></a>
+
+### Prerequisites
+
 - To run the project locally you need an hypervisor and two VMs with nested virtualization capabilities and network connectivity with one or more NIC possibly with static IP adresses.
 - Recomended VMs resources: 6 vCores, 12 GB RAM, 128 GB VHDD | Minimum VMs resources: 4 vCores, 8 GB RAM, 32 GB VHDD
 
 ---
 
-## How to run
+<a name="how-to-run"></a>
+
+### How to run
+
 - Get the latest code from this repo
 - Then setup all the components: 
   - Configure and deploy the Openstack clouds (one per VM)
@@ -52,22 +66,48 @@ The example services we run are a simple website and an API used to compute the 
     - You should be able to reach the website from each node on port :30080 and ask for the factorial of a number you can also contatc directly the APi on port 30500
 
 ---
-## Testing and getting metrics
+
+## Documentation
+
+<a name="testing-and-getting-metrics"></a>
+
+### Testing and getting metrics
+
 You can get metrics about the deployment using the K8s_stats.py script in the K8s-metrics folder and while the scripts is getting and recording the metrics you can run the load test using Jmeter.
 
-### K8s Python Client
+#### K8s Python Client
   - Start the metrics recording using 
 
     ```python k8s_stats.py --deployment_name=factorial-api --observation_time=480 --append``` 
     (check the code for optional flags you can use to customize its behaviour)
   - While the K8s Python Client is running , start the load test using Jmeter
-### JMeter load testing
+#### JMeter load testing
   - Jmeter here is used for load tests, see the jmeter file. After downloading jmeter latest release you can run it using: 
     
     ```.\<apache-jmeter-x.yFolder>\bin\jmeter.bat -f -n -t '.\HTTP Request www and api 2.jmx' -l .\Report_HTML<hpa_tresh>\results.csv -e -o .\Report_HTML<hpa_tresh>\```
 
-### Boxplot and images genetation
+#### Boxplot and images genetation
   - Just run the draw_metrics.py to generate an SVG file containing the graphical rappresentation of the metrics recorded by the k8s_stats.py:
 
     ```python .\draw_metrics.py``` 
     (check the code for optional flags you can use to customize its behaviour)
+
+## Contributing
+
+Ideas, bug reports, documentation fixes and focused changes are welcome through this repository's collaboration channels.
+
+Please include enough context to reproduce a problem or review a change.
+
+## Support
+
+Ko-fi supports Mattia / MrColorRain's work across projects.
+
+Support ongoing development, testing and documentation through [Ko-fi](https://ko-fi.com/mrcolorrain). One-time contributions and monthly memberships are welcome, and you can pledge above a tier's minimum.
+
+Your contribution helps me keep building, testing and sharing useful work. Explore the membership benefits on Ko-fi and choose the way you would like to support. Technical decisions remain independent.
+
+See the [supporters and sponsors directory](https://github.com/MRColorR/MRColorR/blob/main/SPONSORS.md) for acknowledgments.
+
+## License
+
+A project license has not been declared in this repository. Contact the maintainer about reuse permissions.
